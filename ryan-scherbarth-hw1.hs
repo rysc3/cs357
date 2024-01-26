@@ -5,7 +5,7 @@
 Submission rules:
 
 - All text answers must be given in Haskell comment underneath the problem header.
-- You must submit a single .hs file with the following name: firstName-lastName-hw1.hs.
+- You must submit a single .hsd file with the following name: firstName-lastName-hw1.hs.
   Failure to do so will result in -10 points.
 - You will lose 10 points if you put a module statement at the top of the file.
 - You will lose 10 points for any import statements you have in your file and will 
@@ -23,20 +23,50 @@ Submission rules:
 -- Provide your answers in Haskell comments below each function.
 
 -- head ::
+-- head :: [a] -> a
+
 -- tail ::
+-- tail :: [a] -> [a]
+
 -- fst ::
+-- fst :: (a, b) -> a
+
 -- snd ::
+-- snd :: (a, b) -> b
+
 -- length ::
+-- length :: t a -> int
+
 -- null ::
+-- null :: t a -> Bool
+
 -- take ::
+-- take :: Int -> [a] -> [a]
+
 -- drop ::
+-- drop :: Int -> [a] -> [a]
+
 -- sum ::
+-- sum :: a -> a
+
 -- product ::
+-- product :: a -> a
+
 -- (++) ::
+-- (++) :: [a] -> [a] -> [a]
+
 -- (!!) ::
+-- (!!) :: [a] -> Int -> a
+
 -- elem ::
+-- a -> a -> Bool
+
 -- (:) ::
+-- (:) :: a -> [a] -> [a]
+
 -- last ::
+-- last :: [a] -> a
+
 
 -- Problem 2 More Types (1 pt each, 15 pts)
 -- What is the type of the following Haskell expressions?
