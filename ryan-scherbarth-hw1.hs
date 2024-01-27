@@ -23,10 +23,10 @@ Submission rules:
 -- Provide your answers in Haskell comments below each function.
 
 -- head ::
--- head :: [a] -> a
+-- head :: GHC.Stack.Types.HasCallStack => [a] -> a
 
 -- tail ::
--- tail :: [a] -> [a]
+-- tail :: GHC.Stack.Types.HasCallStack => [a] -> [a]
 
 -- fst ::
 -- fst :: (a, b) -> a
@@ -35,37 +35,37 @@ Submission rules:
 -- snd :: (a, b) -> b
 
 -- length ::
--- length :: t a -> int
+-- length :: Foldable t => t a -> Int
 
 -- null ::
 -- null :: t a -> Bool
 
 -- take ::
--- take :: Int -> [a] -> [a]
+-- null :: Foldable t => t a -> Bool
 
 -- drop ::
 -- drop :: Int -> [a] -> [a]
 
 -- sum ::
--- sum :: a -> a
+-- sum :: (Foldable t, Num a) => t a -> a
 
 -- product ::
--- product :: a -> a
+-- product :: (Foldable t, Num a) => t a -> a
 
 -- (++) ::
 -- (++) :: [a] -> [a] -> [a]
 
 -- (!!) ::
--- (!!) :: [a] -> Int -> a
+-- (!!) :: GHC.Stack.Types.HasCallStack => [a] -> Int -> a
 
 -- elem ::
--- a -> a -> Bool
+-- elem :: (Foldable t, Eq a) => a -> t a -> Bool
 
 -- (:) ::
 -- (:) :: a -> [a] -> [a]
 
 -- last ::
--- last :: [a] -> a
+-- last :: GHC.Stack.Types.HasCallStack => [a] -> a
 
 
 -- Problem 2 More Types (1 pt each, 15 pts)
@@ -73,20 +73,49 @@ Submission rules:
 -- Provide your answers in Haskell comments below each expression.
 
 -- True ::
+-- True :: Bool
+
 -- not True ::
+-- not True :: Bool
+
 -- not ::
+-- not :: Bool -> Bool
+
 -- 1 + 2 ::
+-- 1 + 2 :: Num a => a
+
 -- (+) 1 2 ::
+-- (+) 1 2 :: Num a => a
+
 -- (+) 1 ::
+-- (+) 1 :: Num a => a -> a
+
 -- (+) ::
+-- (+) :: Num a => a -> a -> a
+
 -- [True, False] ::
+-- [True, False] :: [Bool]
+
 -- [1, 2, 3] ::
+-- [True, False] :: [Bool] :: [Bool]
+
 -- [1, 2, 3] ++ [4, 5, 6] ::
+-- [1, 2, 3] ++ [4, 5, 6] :: Num a => [a]
+
 -- [] ::
+-- [] :: [a]
+
 -- [[]] ::
+-- [[]] :: [[a]]
+
 -- [[], []] ::
+-- [[], []] :: [[a]]
+
 -- take 10 [] ::
+-- take 10 [] :: [a]
+
 -- take 10 ::
+-- take 10 :: [a] -> [a]
 
 -- Problem 3 Layout (3 pts each, 15 pts)
 -- Fix the error in each of the following pieces of code.
