@@ -123,18 +123,18 @@ Submission rules:
 f = x + y
   where
     x = 1
-     y = 2
+    y = 2
 
-g X Y = X + Y
+g x y = x + y
 
-Foo x y = x + y
+foo x y = x + y
 
-h = [1,2,3] ++ 4,5,6
+h = [1,2,3] ++ [4,5,6]
 
 u = x * y
-where
-x = 1
-y = 2
+  where
+    x = 1
+    y = 2
 
 -- Problem 4 Classes (3 pts each, 18 pts)
 -- For each problem give a list of functions separated by commas.
