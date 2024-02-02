@@ -142,11 +142,51 @@ u = x * y
 -- Provide your answers in Haskell comments below each question.
 
 -- Which functions does the Ord typeclass define?
+{-
+- (<) 
+- (<=)
+- (>)
+- (>=)
+- max
+- min
+-}
+
 -- Which functions does the Show typeclass define?
+{-
+- (show)
+-}
+
 -- Which functions does the Read typeclass define?
+{-
+- (read)
+-}
+
 -- Which functions does the Num typeclass define?
+{-
+- (+)
+- (-)
+- (*)
+- negate
+- abs
+- signum
+- fromInteger
+-}
+
 -- Which functions does the Integral typeclass define?
+{-
+- (quot)
+- (rem)
+- (div)
+- (mod)
+- (toInteger)
+-}
+
 -- Which functions does the Fractional typeclass define?
+{-
+- (/)
+- recip
+- fromRational
+-}
 
 -- Problem 5 Functions (37 pts)
 
