@@ -143,49 +143,57 @@ u = x * y
 
 -- Which functions does the Ord typeclass define?
 {-
-- (<) 
-- (<=)
-- (>)
-- (>=)
-- max
-- min
+  compare :: a -> a -> Ordering
+  (<) :: a -> a -> Bool
+  (<=) :: a -> a -> Bool
+  (>) :: a -> a -> Bool
+  (>=) :: a -> a -> Bool
+  max :: a -> a -> a
+  min :: a -> a -> a
 -}
 
 -- Which functions does the Show typeclass define?
 {-
-- (show)
+  showsPrec :: Int -> a -> ShowS
+  show :: a -> String
+  showList :: [a] -> ShowS
 -}
 
 -- Which functions does the Read typeclass define?
 {-
-- (read)
+  readsPrec :: Int -> ReadS a
+  readList :: ReadS [a]
+  GHC.Read.readPrec :: Text.ParserCombinators.ReadPrec.ReadPrec a
+  GHC.Read.readListPrec :: Text.ParserCombinators.ReadPrec.ReadPrec
 -}
 
 -- Which functions does the Num typeclass define?
 {-
-- (+)
-- (-)
-- (*)
-- negate
-- abs
-- signum
-- fromInteger
+  (+) :: a -> a -> a
+  (-) :: a -> a -> a
+  (*) :: a -> a -> a
+  negate :: a -> a
+  abs :: a -> a
+  signum :: a -> a
+  fromInteger :: Integer -> a
 -}
 
 -- Which functions does the Integral typeclass define?
 {-
-- (quot)
-- (rem)
-- (div)
-- (mod)
-- (toInteger)
+  quot :: a -> a -> a
+  rem :: a -> a -> a
+  div :: a -> a -> a
+  mod :: a -> a -> a
+  quotRem :: a -> a -> (a, a)
+  divMod :: a -> a -> (a, a)
+  toInteger :: a -> Integer
 -}
 
 -- Which functions does the Fractional typeclass define?
 {-
-- (/)
-- recip
-- fromRational
+  (/) :: a -> a -> a
+  recip :: a -> a
+  fromRational :: Rational -> a
 -}
 
 -- Problem 5 Functions (37 pts)
