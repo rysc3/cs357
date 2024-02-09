@@ -200,21 +200,31 @@ u = x * y
 
 -- (5 pts) (Chapter 4 Exercise 1)
 halve :: [a] -> ([a], [a])
-halve = undefined -- Define your function here
+-- halve = undefined -- Define your function here
+halve xs = (take n xs, drop n xs)
+  where n = length xs `div` 2
 
 -- (10 pts) (Chapter 4 Exercise 2)
 fourth1 :: [a] -> a
-fourth1 = undefined -- Define your function here using the head and tail functions.
+-- fourth1 = undefined -- Define your function here using the head and tail functions.
+fourth1 xs = head (tail (tail (tail xs)))
 
 fourth2 :: [a] -> a
-fourth2 = undefined -- Define your function here using the !! function.
+-- fourth2 = undefined -- Define your function here using the !! function.
+fourth2 xs = xs !! 3
 
 fourth3 :: [a] -> a
-fourth3 = undefined -- Define your function here using pattern matching.
+-- fourth3 = undefined -- Define your function here using pattern matching.
+fourth3 (_:_:_:x:_) = x
 
 -- (22 pts) (Chapter 4 Exercise 8)
 luhnDouble :: Int -> Int
-luhnDouble = undefined -- Define your function here
+-- luhnDouble = undefined -- Define your function here
+luhnDouble x = 
+  if x * 2 > 9 
+  then x * 2 - 9 
+  else x * 2  
 
 luhn :: Int -> Int -> Int -> Int -> Bool
-luhn = undefined -- Define your function here
+-- luhn = undefined -- Define your function here
+luhn x y z h = mod (luhnDouble x + y + luhnDouble z + h) 10 == 0
