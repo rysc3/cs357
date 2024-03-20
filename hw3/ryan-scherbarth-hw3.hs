@@ -30,29 +30,35 @@ Submission rules:
 
 -- Problem 1
 curry' :: ((a, b) -> c) -> a -> b -> c
-curry' = undefined 
+curry' f x y = f (x, y)
 
 uncurry' :: (a -> b -> c) -> (a, b) -> c
-uncurry' = undefined
+uncurry' f (x, y) = f x y
 
 
 -- Problem 2
+unfold :: (b -> Bool) -> (b -> a) -> (b -> b) -> b -> [a]
+unfold p h t x | p x = [] 
+               | otherwise = h x : unfold p h t (t x)
+
 chop8 :: [a] -> [[a]]
-chop8 = undefined -- unfold ... 
+chop8 = unfold null (take 8) (drop 8)
+
 
 map' :: (a -> b) -> [a] -> [b]
-map' f = undefined -- unfold ...
+map' f = unfold null (f . head) tail
 
 iterate' :: (a -> a) -> a -> [a]
-iterate' f = undefined -- unfold ...
+iterate' f = unfold (\_ -> False) id f
 
 
 -- Problem 3
 concatER :: [[a]] -> [a]
-concatER xss = undefined  -- Explicit recursion
+concatER [[]] = [] 
+concatER (x:xs) = x ++ concatER xs
 
 concatFR :: [[a]] -> [a]
-concatFR = undefined -- foldr ...
+concatFR = foldr (++) []
 
 concatFL :: [[a]] -> [a]
 concatFL = undefined -- foldl ...
