@@ -179,9 +179,6 @@ minesweeper grid = map (map countMines) indexGrid
     -- (!!) :: [a] -> Int -> a
     checkCell grid x y = (grid !! y) !! x   -- getCell grid 0 0     => "*"
 
-    {-
-
-    -}
     countMinesAround :: Int -> Int -> Int
     countMinesAround x y = length ( filter isMine adjacentCells )
       where
