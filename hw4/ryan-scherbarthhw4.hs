@@ -31,7 +31,7 @@ Submission rules:
 -- Problem 1 (Exercise 8.1)
 
 data Nat = Zero | Succ Nat
-    deriving (Eq, Show)
+  deriving (Eq, Show)
 
 nat2Int :: Nat -> Int
 nat2Int Zero     = 0
@@ -46,7 +46,9 @@ add Zero n2      = n2
 add (Succ n1) n2 = Succ (add n1 n2)
 
 mult :: Nat -> Nat -> Nat
-mult = undefined
+mult Zero n2 = Zero
+mult (Succ n1) n2 = add n2 (mult n1 n2)
+-- DONE --
 
 -- Tests
 
@@ -61,11 +63,21 @@ mult = undefined
 
 -- Problem 2 (Exercise 8.3)
 
-data Tree a = Leaf a | Node (Tree a) a (Tree a)
+data Tree a = Leaf a | Node (Tree a) (Tree a)
     deriving (Eq, Show)
 
 balanced :: Tree a -> Bool
-balanced = undefined
+balanced tree = go tree
+  where 
+    leaves :: Tree a -> Int   -- leaves for a subtree
+    leaves (Leaf _) = 1
+    leaves (Node l r) = leaves l + leaves r   -- recursively sum leaves from all subtrees 
+
+    -- check if tree is balanced using leaves 
+    -- int -> Bool, return
+    go (Leaf _) = True  -- base, leaves themselves are trivially balanced 
+    go (Node l r) = abs (leaves l - leaves r) <= 1 && go l && go r
+-- DONE --
 
 -- Tests
 
@@ -80,8 +92,31 @@ balanced = undefined
 
 -- Problem 3 (Exercise 8.4) 
 
+-- balance :: [a] -> Tree a
+-- balance xs = go xs 
+--   where 
+--     -- Function to split a list into two halves that differ by at most 1
+--     listSplit :: [a] -> ([a], [a])
+--     listSplit ys = splitAt (length ys `div` 2) ys
+    
+--     -- Recursive function to build a balanced tree from a list
+--     go :: [a] -> Tree a
+--     go [x]    = Leaf x
+--     go xs     = Node (go left) mid (go right)
+--         where
+--             (left, mid:right) = listSplit xs
+
 balance :: [a] -> Tree a
-balance = undefined
+balance xs = go xs
+  where
+    listSplit :: [a] -> ([a], [a])
+    listSplit ys = splitAt (length ys `div` 2) ys
+
+    go [x] = Leaf x
+    go xs = Node (go l) (go r)
+      where
+        (l, r) = listSplit xs
+-- DONE --
 
 -- Tests
 
@@ -93,7 +128,9 @@ balance = undefined
 data Expr = Val Int | Add Expr Expr
 
 folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a
-folde = undefined
+folde f _ (Val x) = f x
+folde f g (Add x y) = g (folde f g x) (folde f g y)
+-- DONE --
 
 -- Tests
 
@@ -106,10 +143,11 @@ folde = undefined
 -- Problem 5 (Exercise 8.6)
 
 eval :: Expr -> Int
-eval = undefined
+eval expr = folde id (+) expr
 
 size :: Expr -> Int
-size = undefined
+size expr = folde (\x -> 1) (+) expr
+-- DONE --
 
 -- Tests
 
@@ -131,16 +169,21 @@ size = undefined
 data ComplexInteger = ComplexInteger Int Int 
 
 real :: ComplexInteger -> Int
-real = undefined
+real (ComplexInteger x y) = x
 
 imaginary :: ComplexInteger -> Int
-imaginary = undefined
+imaginary (ComplexInteger x y) = y
 
 instance Eq ComplexInteger where
+  (ComplexInteger x y) == (ComplexInteger z w) = (x == z) && (y == w)
 
 instance Show ComplexInteger where
+  show (ComplexInteger x y) = show x ++ "+" ++ show y ++ "i"
 
 instance Num ComplexInteger where
+  (ComplexInteger x1 y1) + (ComplexInteger x2 y2) = ComplexInteger (x1 + x2) (y1 + y2)
+  (ComplexInteger x1 y1) * (ComplexInteger x2 y2) = ComplexInteger (x1 * x2 - y1 * y2) (x1 * y2 + y1 * x2)
+-- DONE --
 
 -- Tests
 
@@ -162,7 +205,8 @@ instance Num ComplexInteger where
 -- Problem 7
 
 chopN :: Int -> [a] -> [[a]]
-chopN = undefined
+chopN _ [] = [] 
+chopN n xs = if length xs >= n then take n xs : chopN n (drop n xs) else []
 
 -- Tests
 
@@ -177,11 +221,13 @@ chopN = undefined
 
 -- >>> chopN 2 [1..10]
 -- [[1,2],[3,4],[5,6],[7,8],[9,10]]
+-- DONE --
 
 -- Problem 8  
 
 subAlphabet :: (Eq a, Enum a) => a -> a -> [a] -> [a]
-subAlphabet = undefined
+subAlphabet startLetter endLetter specialLetters = specialLetters ++ filter (`notElem` specialLetters) [startLetter..endLetter]
+-- DONE --
 
 -- Tests
 
@@ -196,12 +242,36 @@ subAlphabet = undefined
 data Polynomial = Constant Int | MoreTerms Int Polynomial
 
 p = MoreTerms 3 (MoreTerms 4 (Constant 5))
+q = MoreTerms 6 (MoreTerms 10 (MoreTerms 35 (Constant 7)))
 
 -- instance Show
+instance Show Polynomial where
+  show p = showPoly p 0 
+    where 
+      showPoly (Constant n) exp = show n ++ "x^" ++ show exp
+      showPoly (MoreTerms n rest) exp 
+        | n == 0 = showPoly rest (exp + 1) 
+        | exp == 0 = show n ++ "+" ++ showPoly rest (exp + 1)
+        | exp == 1 = show n ++ "x+" ++ showPoly rest (exp + 1)
+        | otherwise = show n ++ "x^" ++ show exp ++ "+" ++ showPoly rest (exp+ 1)
+
+
 -- instance Num
+instance Num Polynomial where
+  (+) (Constant a) (Constant b) = Constant (a + b)
+  (+) (Constant a) (MoreTerms b p) = MoreTerms b (p + Constant a)
+  (+) (MoreTerms a p) (Constant b) = MoreTerms a (p + Constant b)
+  (+) (MoreTerms a p1) (MoreTerms b p2) = MoreTerms a (p1 + MoreTerms b p2)
+  (*) (Constant a) (Constant b) = Constant (a * b)
+  (*) (Constant a) (MoreTerms b p) = MoreTerms (a * b) (Constant a * p)
+  (*) (MoreTerms a p) (Constant b) = MoreTerms (a * b) (p * Constant b)
+  (*) (MoreTerms a p1) (MoreTerms b p2) = MoreTerms (a * b) (Constant a * p2 + p1 * MoreTerms b p2)
+
 
 evalPoly :: Polynomial -> Int -> Int
-evalPoly = undefined
+evalPoly (Constant n) _ = n
+evalPoly (MoreTerms n p) x = n + x * evalPoly p x
+-- DONE --
 
 -- Tests
 
@@ -209,15 +279,23 @@ evalPoly = undefined
 -- 3 + 4x + 5x^2
 
 -- >>> evalPoly p 2
--- 33
+-- 31
 
 -- Problem 10
 
 data Pair a b = Pair a b
 
 -- instance (Eq a, Eq b) => Eq (Pair a b) where
+instance (Eq a, Eq b) => Eq (Pair a b) where
+  (Pair x1 y1) == (Pair x2 y2) = x1 == x2 && y1 == y2
 
 -- instance (Ord a, Ord b) => Ord (Pair a b) where
+instance (Ord a, Ord b) => Ord (Pair a b) where
+  compare (Pair x1 y1) (Pair x2 y2)
+    | x1 == x2 && y1 == y2 = EQ
+    | x1 < x2 || (x1 == x2 && y1 < y2) = LT
+    | otherwise = GT
+-- DONE --
 
 -- Tests
 
@@ -244,10 +322,13 @@ safeDivide :: Float -> Float -> Maybe Float
 safeDivide x y = if y == 0 then Nothing else Just (x / y)
 
 safeDivide' :: Maybe Float -> Maybe Float -> Maybe Float
-safeDivide' = undefined
+safeDivide' (Just x) (Just 0) = Nothing
+safeDivide' (Just x) (Just y) = safeDivide x y
+safeDivide' _ _ = Nothing
 
 hm :: [Float] -> Maybe Float
-hm = undefined
+hm xs = safeDivide' (Just $ fromIntegral (length xs)) (Just $ sum (map recip xs))
+-- DONE --
 
 -- Tests
 
